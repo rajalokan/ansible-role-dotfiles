@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 is_sclib_imported 2> /dev/null ||
-    SCLIB_PATH="/tmp/okanstack/sclib.sh"
+    SCLIB_PATH="/tmp/sclib.sh"
     SCLIB_GIT_RAW_URL="https://raw.githubusercontent.com/rajalokan/cloud-installer/master/scripts/sclib.sh"
     if [[ ! -f ${SCLIB_PATH} ]]; then
         wget ${SCLIB_GIT_RAW_URL} -O ${SCLIB_PATH}
@@ -23,3 +23,7 @@ is_package_installed ansible || info_block "ansible not installed. Exiting"
 pushd ${dotfiles_temp_path}/ansible/ >/dev/null
     ansible-playbook -i "localhost," -c local playbook.yaml
 popd
+
+wget -O /tmp/autorun.sh https://raw.githubusercontent.com/rajalokan/ansible-role-dotfiles/master/autorun.sh \
+    && chmod +x /tmp/autorun.sh \
+    && /tmp/autorun.sh
