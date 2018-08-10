@@ -1,0 +1,11 @@
+distribution_name: centos
+default_python_packages_to_be_installed:
+  - python-devel
+basic_packages_to_be_installed:
+  - libxml2-devel
+  - openssl-devel
+  - libxslt-devel
+  - libffi-devel
+  - gcc
+  - make
+  - bash-completion

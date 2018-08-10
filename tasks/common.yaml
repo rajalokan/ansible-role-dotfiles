@@ -1,0 +1,30 @@
+---
+
+# ******************************************************************************
+# Update & Upgrade
+# ******************************************************************************
+- name: apt - Update all packages to latest
+  apt:
+    update_cache: yes
+    upgrade: dist
+  become: true
+  when:
+    - ansible_distribution | lower == "ubuntu"
+
+- name: yum - Update and upgrade all packages to latest
+  yum:
+    name: '*'
+    state: latest
+  become: true
+  when:
+    - ansible_distribution | lower == "centos"
+
+# ******************************************************************************
+# Install basic packages
+# ******************************************************************************
+- name: Install basic packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ basic_packages_to_be_installed }}"
+  become: true

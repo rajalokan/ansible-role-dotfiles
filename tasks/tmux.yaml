@@ -1,0 +1,14 @@
+# ******************************************************************************
+# tmux setup
+# ******************************************************************************
+- name: Make sure tmux is installed
+  package:
+    name: tmux
+    state: present
+  become: true
+
+- name: Copy tmux.conf
+  copy:
+    src: "tmux/tmux.conf"
+    dest: ~/.tmux.conf
+    backup: true

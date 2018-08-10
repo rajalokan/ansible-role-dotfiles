@@ -1,0 +1,365 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"`````````````````````   General   ````````````````````````
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+filetype off " load plugins from vundle
+
+set rtp+=~/.vim/bundle/Vundle.vim/ " Set the runtime path to include Vundle and initialize
+call vundle#begin()
+
+Plugin 'gmarik/Vundle.vim' " let Vundle manage Vundle, required
+
+" utilities
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+" Plugin 'Lokaltog/powerline'
+" Plugin 'Valloric/YouCompleteMe'
+" Plugin 'davidhalter/jedi-vim'
+" Plugin 'tpope/vim-dispatch'
+" Plugin 'w0rp/ale'
+Plugin 'benmills/vimux'
+" Plugin 'endel/vim-github-colorscheme'
+" Plugin 'tpope/vim-fugitive' " the ultimate git helper
+" Plugin 'tpope/vim-commentary' " comment/uncomment lines with gcc or gc in visual mode
+" Plugin 'tpope/vim-sensible'
+" Plugin 'vim-scripts/taglist.vim'
+" Plugin 'jlanzarotta/bufexplorer'
+" Plugin 'jeffkreeftmeijer/vim-numbertoggle'
+" Plugin 'ervandew/supertab'
+" Plugin 'ervandew/supertab'
+" Plugin 'tmhedberg/SimpylFold'
+
+" Plugin 'vim-scripts/bufexplorer.zip'
+" Plugin 'aaronbieber/vim-quicktask'
+" Plugin 'davidhalter/jedi-vim'
+" Plugin 'scrooloose/syntastic'
+" Plugin 'MarcWeber/vim-addon-mw-utils'
+" Plugin 'tomtom/tlib_vim'
+" Plugin 'garbas/vim-snipmate'
+" Plugin 'tpope/vim-fugitive'
+" Plugin 'chilicuil/conque'
+" Plugin 'Rykka/riv.vim'
+" Plugin 'rkulla/pydiction'
+" Plugin 'Rykka/riv.vim'
+" Plugin 'nanotech/jellybeans.vim'
+" Plugin 'xolox/vim-misc'
+" Plugin 'xolox/vim-notes'
+" Plugin 'vim-scripts/indentpython.vim'
+" Plugin 'klen/python-mode'
+" Plugin 'jnurmine/Zenburn'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on
+
+set nocompatible " not compatible with vi
+set nocp
+set autoread " detect when a file is changed
+
+set backspace=indent,eol,start " make backspace behave in a sane manner
+
+let mapleader = "," " Set leader key.
+let g:mapleader = ","
+
+" Automatic reloading of .vimrc
+autocmd! bufwritepost .vimrc source %
+
+" Tab control
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set noexpandtab " tabs ftw
+set smarttab " tab respects 'tabstop', 'shiftwidth', and 'softtabstop'
+set shiftround
+set bs=2 " make backspace behave like normal again
+
+set clipboard=unnamed
+
+set ttyfast " faster redrawing
+
+" code folding settings
+"set foldmethod=syntax " fold based on indent
+"set foldnestmax=10 " deepest fold is 10 levels
+"set nofoldenable " don't fold by default
+"set foldlevel=1
+set foldlevelstart=1
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"````````````````   User Interface   ``````````````````````
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Make search case insensitive and auto highlight
+set hlsearch
+set incsearch
+set ignorecase " case insensitive searching
+set smartcase " case-sensitive if expresson contains a capital letter
+set nolazyredraw " don't redraw while executing macros
+
+set magic " Set magic on, for regex
+
+set showmatch " show matching braces
+set mat=2 " how many tenths of a second to blink
+
+syntax on " switch syntax highlighting on
+
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+let base16colorspace=256  " Access colors present in 256 colorspace
+set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
+set background=dark
+
+"" Enable filetype plugins
+filetype plugin indent on    " required
+
+"" Split navigations is easier with Ctrl+j,k,l,m
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+"" Removes highlight of your last search
+noremap <C-n> :nohl<CR>
+vnoremap <C-n> :nohl<CR>
+inoremap <C-n> :nohl<CR>
+
+"" Show whitespace
+"" MUST be inserted BEFORE the colorscheme command
+" autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+" au InsertLeave * match ExtraWhitespace /\s\+$/
+
+"" Color Scheme and terminal colors
+" colorscheme rajalokan
+
+"" No swap file or other bullshit
+set noswapfile
+set nobackup
+set nowritebackup
+
+"" Fast saving
+nmap <leader>w :w!<cr>
+
+"" Use jj to exit from insert mode.
+imap jj <Esc>
+
+"" Don't show welcome message.
+set shortmess+=I
+
+"" Show line number
+set number
+set relativenumber
+
+"" Set maximum coloumn width
+"set tw=119 " width of document (used by gd)
+"set nowrap " don't automatically wrap on load
+"set fo-=t " don't automatically wrap text when typing
+"set colorcolumn=120
+"" TODO: change color
+"highlight ColorColumn ctermbg=103
+
+"" Custom shortcuts to open and reload
+nmap <leader>vim :e ~/.vimrc<cr>
+nmap <leader>load :so ~/.vimrc<CR>
+nmap <leader>tmux :e ~/.tmux.conf<CR>
+nmap <leader>bash :e ~/.bashrc<CR>
+nmap <leader>zsh :e ~/.zshrc<CR>
+
+" Quick quit command
+noremap <Leader>e :quit<CR> " Quit current window
+noremap <Leader>E :qa!<CR> " Quit all windows
+
+" Close current buffer
+noremap <Leader>bd :bd<CR>
+
+
+"" Enable syntax highlight for *.conf files
+autocmd BufRead,BufNewFile *.conf setf dosini
+
+"" Set extra options when running in GUI mode
+if has("gui_running")
+	" Fixes missing cursor while in split window.
+	set cursorline
+	set t_Co=256
+	set linespace=3
+	" set guifont=Ubuntu\ Mono\ Regular\ 13
+	set guifont=Monospace\ Regular\ 13
+	colorscheme rajalokan
+	" set guioptions=-l
+    " set guioptions-=T
+	" set guioptions+=e
+	" set guitablabel=%M\ %t
+    " set lines=999 columns=999
+endif
+
+"" Enable syntax highlighting
+syntax enable
+
+
+"" Use Unix as the standard file type
+set ffs=unix,dos,mac
+
+"" TODO: why?
+set clipboard=unnamedplus
+
+"" copy and paste into clipboard is easy.
+"" vmap <C-c> "+yi
+"" vmap <C-x> "+c
+"" vmap <C-v> c<ESC>"+p
+"" imap <C-v> <ESC>"+pa
+"" Why?
+"" :set nopaste
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"`````````````````  HTML/CSS/JS  ``````````````````````````
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+au BufNewFile,BufRead *.js, *.html, *.css set tabstop=2
+au BufNewFile,BufRead *.js, *.html, *.css set softtabstop=2
+au BufNewFile,BufRead *.js, *.html, *.css set shiftwidth=2
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"```````````````````  taglist  ````````````````````````````
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+nnoremap <leader>tl :TlistToggle<cr>
+let Tlist_Use_Right_Window = 1 " Show taglist window on the right.
+let Tlist_Close_On_Select=1 " Close taglist window after selecting a tag.
+let Tlist_GainFocus_On_ToggleOpen = 1 " After opening taglist window set focus on the taglist window.
+let Tlist_Show_One_File = 1 " Only show tags for the current file.
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"````````````````````  python  ````````````````````````````
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"  ### Python Settings
+"map <leader>pb Oimport ipdb; ipdb.set_trace()<esc>
+"map <leader>pB oimport ipdb; ipdb.set_trace()<esc>
+
+"" python with virtualenv support
+"py << EOF
+"import os
+"import sys
+"if 'VIRTUAL_ENV' in os.environ:
+"  project_base_dir = os.environ['VIRTUAL_ENV']
+"  sys.path.insert(0, project_base_dir)
+"  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+"  execfile(activate_this, dict(__file__=activate_this))
+"EOF
+
+"" Suggested hack
+autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
+autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+
+"" Enable folding
+set foldmethod=indent
+set foldlevel=99
+
+"" Enable folding with the spacebar
+nnoremap <space> za
+
+"" Preview docstring in fold
+let g:SimpylFold_docstring_preview=1
+
+"" Don't fold docstring
+let g:SimpylFold_fold_docstring = 0
+
+"" Number of spaces that a pre-existing tab is equal to.
+"au BufRead,BufNewFile *py,*pyw,*.c,*.h set tabstop=4
+
+"" Use spaces for indents
+" au BufRead,BufNewFile *.py,*pyw set shiftwidth=4
+"au BufRead,BufNewFile *.py,*.pyw set expandtab
+" au BufRead,BufNewFile *.py set softtabstop=4
+
+"" Wrap text after a certain number of characters
+" au BufRead,BufNewFile *.py,*.pyw, set textwidth=120
+
+"" Use UNIX (\n) line endings.
+" au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
+
+"" Keep indentation level from previous line:
+" autocmd FileType python set autoindent
+
+"" Use the below highlight group when displaying bad whitespace is desired.
+" highlight BadWhitespace ctermbg=red guibg=red
+
+"" Make trailing whitespace be flagged as bad.
+" au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+"" Dont show docstring while autocomplete in jedi-vm
+"autocmd FileType python setlocal completeopt-=previewlet
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"``````````````````````  Powerline  ```````````````````````
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" :set statusline=%<%f%=%([%{Tlist_Get_Tagname_By_Line()}]%) " Show current tag in statusline.
+" set powerline
+" set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim/
+" set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
+" set laststatus=2 " Always show statusline
+" set t_Co=256 " Use 256 colours, only if your terminal supports 256 colours
+" let g:Powerline_symbols = 'fancy'
+" map <leader>xt Oset -o xtrace<esc>
+" map <leader>ex Oset +o xtrace && exit<esc>
+" map <leader>td i#TODO:Undo <esc>
+" map <leader>tdm I#TODO:Undo <esc>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"`````````````````````   NERDTree   ```````````````````````
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" autocmd vimenter * NERDTree " load up the nerd tree automatically
+nmap <leader>nt :NERDTreeToggle<cr>
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+let g:NERDTreeWinPos = "right" " move nerdtree to the right
+autocmd VimEnter * wincmd p " move to the first buffer
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"``````````````````````` YCM ``````````````````````````````
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:ycm_key_invoke_completion = '<C-Space>'
+let g:ycm_key_invoke_completion = ''
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" let g:jedi#use_tabs_not_buffers = 1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"``````````````````````` VMUX  ````````````````````````````
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <leader>rsy :call VimuxRunCommand("echo 'okan'")<CR>
+map <leader>py :call VimuxRunCommand("./" . bufname("%"))<CR>
+map <leader>rr :VimuxRunLastCommand<CR>
+map <leader>cls :VimuxRunCommand("clear")<CR>
+map <leader>vpc :VimuxPromptCommand<CR>
+
+
+" POWERLINE 
+set rtp+=$HOME/.local/lib/python2.7/site-packages/powerline/bindings/vim/
+
+" Always show statusline
+set laststatus=2
+
+" Use 256 colours (Use this setting only if your terminal supports 256 colours)
+set t_Co=256
+
+set tabline=2
+
+nnoremap <leader>bl :ls<cr>:b<space>
+nnoremap <leader>- :new<CR>
+nnoremap <leader>\| :vnew<CR>
+
+nnoremap <C-b> :CtrlPBuffer<CR>
+
+:cabbrev h vert h
+
+" Jump to a subject
+map <leader>] <C-]>
+" Jump back from a subject
+" TODO: This is pretty slow. For now use Ctrl-T or Ctrl-O instead
+" map <leader>t <C-t>
+

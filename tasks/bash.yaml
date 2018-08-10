@@ -1,0 +1,37 @@
+# ******************************************************************************
+# bash setup
+# ******************************************************************************
+- name: backup ~/.bashrc if present and copy new bashrc
+  copy:
+    src: "{{ item }}"
+    dest: "~/.bashrc"
+    # backup: true
+  with_first_found:
+    - "bash/{{ ansible_distribution | lower }}/{{ ansible_distribution_version | lower}}/bashrc"
+    - "bash/{{ ansible_distribution | lower }}/bashrc"
+
+- name: Ubuntu - Copy ~/.profile and backup ~/.profile if present
+  copy:
+    src: "bash/{{ ansible_distribution | lower }}/{{ ansible_distribution_version | lower }}/profile"
+    dest: "~/.profile"
+    # backup: true
+  when:
+    - ansible_distribution | lower == "ubuntu"
+
+- name: CentOS - Copy ~/.bash_profile and backup ~/.bash_profile if present
+  copy:
+    src: "bash/{{ ansible_distribution | lower }}/bash_profile"
+    dest: ~/.bash_profile
+    # backup: true
+  when:
+    - ansible_distribution | lower == "centos"
+
+- name: Copy bashrc_okan
+  copy:
+    src: "bash/{{ ansible_distribution | lower }}/bashrc_okan"
+    dest: "~/.bashrc_okan"
+
+- name: Copy bash_aliases
+  copy:
+    src: "bash/bash_aliases"
+    dest: "~/.bash_aliases"

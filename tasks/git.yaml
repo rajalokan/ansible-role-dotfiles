@@ -1,0 +1,16 @@
+# ******************************************************************************
+# git setup
+# ******************************************************************************
+- name: Ensure git is installed
+  package:
+    name: git
+    state: present
+
+- name: Copy gitconfig and gitignore files and backup if present
+  copy:
+    src: "git/{{ item }}"
+    dest: "~/.{{ item }}"
+    backup: true
+  with_items:
+    - gitconfig
+    - gitignore

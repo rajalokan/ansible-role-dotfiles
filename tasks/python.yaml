@@ -1,0 +1,67 @@
+---
+
+- name: Check to see if pip is already installed.
+  command: "pip --version"
+  ignore_errors: true
+  changed_when: false # read-only task
+  check_mode: no
+  register: pip_is_installed
+
+- name: Download pip.
+  get_url:
+    url: https://bootstrap.pypa.io/get-pip.py
+    dest: /tmp/
+  when: pip_is_installed.rc != 0
+
+- name: Install pip.
+  command: "python /tmp/get-pip.py"
+  become: yes
+  when: pip_is_installed.rc != 0
+
+- name: Delete get-pip.py.
+  file:
+    state: absent
+    path: /tmp/get-pip.py
+  when: pip_is_installed.rc != 0
+
+- name: Upgrade to latest pip. Only while installing
+  pip:
+    name: pip
+    state: latest
+  become: yes
+  when: pip_is_installed.rc != 0
+
+- name: Ensure some basic packages are installed
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ default_python_packages_to_be_installed }}"
+  become: yes
+
+- name: Install basic pip modules
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - pyopenssl
+    - ndg-httpsclient
+    - pyasn1
+  become: yes
+
+- name: Check if ~/.pip_orig is present
+  stat:
+    path: ~/.pip_orig
+  register: _st
+
+- name: Store a list of all system packages for future use
+  shell: pip freeze > ~/.pip_orig
+  when: not _st.stat.exists
+
+- name: Install virtualenv and pew
+  pip:
+    name: "{{ item }}"
+    state: present
+    extra_args: --user
+  with_items:
+    - virtualenv
+    - pew

@@ -1,0 +1,13 @@
+.project
+.pydevproject
+.okan/
+.rajalokan
+.settings/
+rsync.xml
+.externalToolBuilders/
+.metadata/
+.sync-config.cson
+.env
+Pipfile
+.vagrant/*
+.sync.sh

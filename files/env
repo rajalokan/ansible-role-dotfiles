@@ -1,0 +1,3 @@
+if [[ -d .tox ]]; then
+	source .tox/py27/bin/activate
+fi

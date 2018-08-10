@@ -1,0 +1,7 @@
+---
+# vars file for .
+
+HOME: "{{ lookup('env', 'HOME') }}"
+
+upgrade: True
+__actions: []

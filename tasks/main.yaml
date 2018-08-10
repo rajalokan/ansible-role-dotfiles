@@ -1,0 +1,25 @@
+---
+
+- include: "configure.yaml"
+
+- name: Gather variables for each operating system
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution | lower }}-{{ ansible_distribution_version | lower }}.yaml"
+    - "{{ ansible_distribution | lower }}.yaml"
+    - "{{ ansible_os_family | lower }}.yaml"
+  tags: always
+
+- include: common.yaml
+  tags: always
+- include: bash.yaml
+  tags: always
+- include: vim.yaml
+  tags: always
+- include: git.yaml
+  tags: always
+- include: tmux.yaml
+  tags: always
+
+- include: python.yaml
+  tags: [ 'never', 'python']

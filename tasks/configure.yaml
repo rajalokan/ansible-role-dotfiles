@@ -1,0 +1,38 @@
+---
+
+- name: Ubuntu/Debian - Configure apt-cacher-ng proxy in guest VM
+  lineinfile:
+    path: /etc/apt/apt.conf.d/01proxy
+    line: "{{ item }}"
+    state: present
+    create: yes
+  with_items:
+    - 'Acquire::HTTP::Proxy "http://{{ APT_CACHER_HOST }}:3142";'
+    - 'Acquire::HTTPS::Proxy "false";'
+  become: true
+  when:
+    - ansible_distribution | lower == "ubuntu"
+  tags: ['never', 'apt-cacher-ng']
+
+- name: CentOS/RHEL - Configure apt-cacher-ng proxy in guest VM
+  lineinfile:
+    path: /etc/yum.conf
+    line: "proxy=http://{{ APT_CACHER_HOST }}:3142"
+  become: true
+  when:
+    - ansible_distribution | lower == "centos"
+  tags: ['never', 'apt-cacher-ng']
+
+- name: Configure pip to use devpi proxy
+  template:
+    src: pip.conf
+    dest: /etc/pip.conf
+  become: true
+  tags: ['never', 'pip-proxy']
+
+- name: Ensure cloud public key is inserted
+  authorized_key:
+    user: "{{ ansible_ssh_user }}"
+    state: present
+    key: "{{ lookup('file', '~/.ssh/cloud.key.pub') }}"
+  tags: ['never', 'insert_cloud_key']

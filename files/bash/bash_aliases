@@ -1,0 +1,17 @@
+alias gs='git status'
+alias ga='git add'
+alias gb='git branch'
+alias gbh='git branch -a'
+alias gc='git commit'
+alias gd='git diff'
+alias gl='git lg'
+alias gla='git lga'
+alias gr='git remote -v'
+alias orghist="cp ~/.bash_history ~/.bash_history.old && nl ~/.bash_history | sort -k 2 | uniq -f 1 | sort -n | cut -f 2 > ~/.bash_history.new && mv ~/.bash_history.new ~/.bash_history"
+alias vs='vagrant status'
+alias ipy="python -c 'import IPython; IPython.terminal.ipapp.launch_new_instance()'"
+alias djstartprj='django-admin startproject --template https://github.com/rajalokan/dj_template/zipball/master'
+alias _tmux="tmux a -t ${USER} || tmux new -s '${USER}' -n 'ep-IV' \; neww -n 'ep-V' \; neww -n 'ep-VI' \; selectw -t 1"
+alias _logs='tmux list-windows -F "#{windows_name}" | grep -q logs || tmux neww -n "logs" && tmux send-keys -t "${USER}" "cd ~/playground/rajalokan/docker_chowk/docker-apt-cacher-ng; make log" C-m && tmux splitw -v -t logs && tmux selectp -t 2 && tmux send-keys -t "${USER}" "cd ~/playground/rajalokan/docker_chowk/docker-devpi; make log" C-m \; selectw -t 1'
+alias _dckr_rmi="docker images --filter dangling=true -q | xargs docker rmi 2> /dev/null || echo 'No images to remove'"
+alias _dckr_rm="docker ps --filter status=exited -q | xargs docker rm 2> /dev/null || echo 'No containers to remove'"

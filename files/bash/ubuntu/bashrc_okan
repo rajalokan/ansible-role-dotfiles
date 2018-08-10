@@ -1,0 +1,55 @@
+### My Customization ###
+#======================#
+
+# Virtualenv configurations
+#if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+#	export WORKON_HOME=$HOME/sentinel/venvs
+#	source /usr/local/bin/virtualenvwrapper.sh
+#fi
+
+PS1="\[$(tput bold)\]\[\033[31;5;1m\]\u\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[33;5;1m\]@\[$(tput sgr0)\]\[\033[33;5;1m\]\h\[$(tput sgr0)\] \[\033[01;34m\]\W\[\033[00m\] $ "
+PS2="$HC$FYEL&gt; $RS"
+
+
+if [ -f ~/.git-completion.bash ]; then
+	. ~/.git-completion.bash
+fi
+
+# bash_history settings
+export HISTSIZE=100000                   # big big history
+export HISTFILESIZE=100000               # big big history
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"    # Save and reload the history after each command finishes
+export LANG="en_US.UTF-8"
+
+export PATH=$PATH:$HOME/bin
+
+function set-title() {
+	if [[ -z "$ORIG" ]]; then
+		ORIG=$PS1
+	fi
+	TITLE="\[\e]2;$@\a\]"
+	PS1=${ORIG}${TITLE}
+}
+
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/sentinel/playground/goworkspace
+
+if [ -f /usr/local/bin/activate.sh ]; then
+	source /usr/local/bin/activate.sh
+fi
+
+function ydl() {
+    youtube-dl -xq --audio-format mp3 $1&
+}
+
+function __ssh(){
+	[[ -z $1 ]] && mosh jumpbox || mosh jumpbox ssh -i ~/.ssh/cloud.key ec2-user@${1}
+}
+
+# Load pew config for bash shell
+if [ -f "$(pew shell_config 2>&1)" ]; then
+	source $(pew shell_config)
+fi
+
+# Export Local IP variable
+# export my_ip=$(ifconfig wlp2s0 | awk '/net addr/{print substr($2,6)}')

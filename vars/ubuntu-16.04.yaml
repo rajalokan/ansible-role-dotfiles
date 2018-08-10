@@ -1,0 +1,12 @@
+distribution_name: ubuntu
+
+default_python_packages_to_be_installed:
+  - python-dev
+
+basic_packages_to_be_installed:
+  - libxml2-dev
+  - libxslt1-dev
+  - libffi-dev
+  - gcc
+  - make
+  - bash-completion

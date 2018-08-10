@@ -1,0 +1,31 @@
+# ******************************************************************************
+# vim setup
+# ******************************************************************************
+- name: Ensure `vim` is installed
+  package:
+    name: vim
+    state: present
+  become: true
+
+- name: Copy ~/.vimrc and backup if present
+  copy:
+    src: "vim/vimrc"
+    dest: "~/.vimrc"
+
+- name: Create directory structure at ~/.vim
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - ~/.vim
+    - ~/.vim/bundle
+    - ~/.vim/colors
+
+- name: "Clone vim bundle"
+  git:
+    repo: https://github.com/gmarik/Vundle.vim.git
+    dest: "~/.vim/bundle/Vundle.vim"
+    clone: yes
+
+- name: "Installing Vim Plugins"
+  shell: vim +PluginInstall +qall > /dev/null

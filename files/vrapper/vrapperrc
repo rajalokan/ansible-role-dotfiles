@@ -1,0 +1,7 @@
+imap jj <esc>
+set hlsearch
+set incsearch
+nnoremap ,w :w!<cr>
+map ,pb Oimport ipdb; ipdb.set_trace()<esc>x
+map ,pB oimport ipdb; ipdb.set_trace()<esc>x
+map ,td 0i#TODO:Undo <esc>
