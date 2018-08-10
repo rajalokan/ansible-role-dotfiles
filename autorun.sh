@@ -10,20 +10,22 @@ is_sclib_imported 2> /dev/null ||
 
 info_block "Preconfiguring Bootstraping dotfiles"
 
-dotfiles_temp_path="/tmp/okanstack/ansible_roles/dotfiles"
+ansible_roles_path="${HOME}/.ansible/roles"
+mkdir -p ${ansible_roles_path}
+
+dotfiles_path="${ansible_roles_path}/dotfiles"
 dotfiles_repo="https://github.com/rajalokan/ansible-role-dotfiles"
-if [[ ! -d ${dotfiles_temp_path} ]]; then
-    git clone ${dotfiles_repo} ${dotfiles_temp_path}
+
+# Ensure git is installed
+is_package_installed git || install_package git
+
+if [[ ! -d ${dotfiles_path} ]]; then
+    git clone ${dotfiles_repo} ${dotfiles_path}
 fi
 
-# Install ansible
-is_package_installed git || install_package git
+# Ensure latest ansible is installed
 is_package_installed ansible || info_block "ansible not installed. Exiting"
 
-pushd ${dotfiles_temp_path}/ansible/ >/dev/null
+pushd ${dotfiles_path} >/dev/null
     ansible-playbook -i "localhost," -c local playbook.yaml
 popd
-
-wget -O /tmp/autorun.sh https://raw.githubusercontent.com/rajalokan/ansible-role-dotfiles/master/autorun.sh \
-    && chmod +x /tmp/autorun.sh \
-    && /tmp/autorun.sh
