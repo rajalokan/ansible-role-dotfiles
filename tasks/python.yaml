@@ -40,12 +40,8 @@
 
 - name: Install basic pip modules
   pip:
-    name: "{{ item }}"
+    name: ['pyopenssl', 'ndg-httpsclient', 'pyasn1']
     state: latest
-  with_items:
-    - pyopenssl
-    - ndg-httpsclient
-    - pyasn1
   become: yes
 
 - name: Check if ~/.pip_orig is present
@@ -59,9 +55,6 @@
 
 - name: Install virtualenv and pew
   pip:
-    name: "{{ item }}"
+    name: ['virtualenv', 'pew']
     state: present
     extra_args: --user
-  with_items:
-    - virtualenv
-    - pew
