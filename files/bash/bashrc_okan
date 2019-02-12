@@ -46,3 +46,5 @@ function ydl() {
 if [ -f "$(pew shell_config 2>&1)" ]; then
 	source $(pew shell_config)
 fi
+
+source /tmp/pureline ~/.pureline.conf
