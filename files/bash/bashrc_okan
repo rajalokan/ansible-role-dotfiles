@@ -47,4 +47,4 @@ if [ -f "$(pew shell_config 2>&1)" ]; then
 	source $(pew shell_config)
 fi
 
-source ~/pureline ~/.pureline.conf
+source ~/.pureline ~/.pureline.conf
